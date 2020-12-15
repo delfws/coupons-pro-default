@@ -1,0 +1,128 @@
+{
+    "t_banner": {
+        "data": [
+            {
+                "icon": "",
+                "name": "openEuler 高校大赛",
+                "url": "https://www.oschina.net/2020-openeuler?from=cooper-13",
+                "isOpen": true
+            }
+        ]
+    },
+    "t_coupons": {
+        "data": [
+            {
+                "name": "每日外卖红包",
+                "appid": "wxece3a9a4c82f58c9",
+                "banner": "",
+                "btn-text": "免费领取",
+                "tip": "天天可领",
+                "url": "pages/sharePid/web/index?scene=https://s.click.ele.me/uxvuWtu",
+                "parentId": "",
+                "isNameMask": false,
+                "isTipMask": false,
+                "isOpen": true
+            }
+        ],
+        "index": [
+            {
+                "IndexName": "_ parentId_",
+                "MgoKeySchema": {
+                    "MgoIndexKeys": [
+                        {
+                            "Name": "parentId",
+                            "Direction": "1"
+                        }
+                    ],
+                    "MgoIsUnique": false
+                }
+            }
+        ]
+    },
+    "t_evaluation": {
+        "data": [
+            {
+                "logId": "",
+                "opera": "",
+                "user": "",
+                "datetime": ""
+            }
+        ]
+    },
+    "t_log": {
+        "data": [
+            {
+                "badge": "v1.0.0",
+                "badgeText": "2020/12/6",
+                "content": "1.0版本正式上线"
+            }
+        ]
+    },
+    "t_message": {
+        "data": [
+            {
+                "title": "美团饿了么大额红包，每日可领！",
+                "path": "/pages/index/index",
+                "imageUrl": "",
+                "isOpen": false
+            }
+        ]
+    },
+    "t_music": {
+        "data": [
+            {
+                "musicUrl": "",
+                "name": "起点",
+                "author": "姜云升/阿达娃",
+                "isOpen": false,
+                "url": ""
+            }
+        ]
+    },
+    "t_open": {
+        "data": [
+            {
+                "banner": true,
+                "coupons": true,
+                "message": true,
+                "wallpaper": true,
+                "music": true
+            }
+        ]
+    },
+    "t_platform": {
+        "data": [
+            {
+                "icon": "",
+                "name": "饿了么",
+                "isOpen": true
+            }
+        ]
+    },
+    "t_user": {
+        "data": [
+            {
+                "session_key": "",
+                "expires_in": 7200,
+                "openid": ""
+            }
+        ]
+    },
+    "t_wallpaper": {
+        "data": [
+            {
+                "number": "",
+                "type": "",
+                "title": "",
+                "image_url": ""
+            }
+        ]
+    },
+    "t_wallpaper_type": {
+        "data": [
+            {
+                "name": "iphone"
+            }
+        ]
+    }
+}

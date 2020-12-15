@@ -1,0 +1,94 @@
+var TOUCH_STATUS = ({
+	NONE: 0,
+	MOVE_X: 1,
+	OTHERS: 2,
+});
+
+function initInstanceState(state) {
+	state.containerIns = null;
+	state.touchStatus = TOUCH_STATUS.NONE;
+	state.touchStartX = 0;
+	state.touchStartY = 0;
+	state.touchIdentifier = undefined;
+	state.threshold = 0;
+	state.emitMoveXFlag = false
+};
+
+function touchstart(event, instance) {
+	var state = instance.getState();
+	if (!state.containerIns) {
+		initInstanceState(state);
+		state.containerIns = instance.selectComponent('.touchmove-x')
+	};
+	if (!state.threshold) {
+		state.threshold = state.containerIns.getDataset().threshold
+	};
+	if (state.touchStatus !== TOUCH_STATUS.NONE) return (true);;
+	state.touchStartX = event.changedTouches[(0)].clientX;
+	state.touchStartY = event.changedTouches[(0)].clientY;
+	state.touchIdentifier = event.changedTouches[(0)].identifier;
+	return (true)
+};
+
+function touchmove(event, instance) {
+	var state = instance.getState();
+	if (state.touchStatus === TOUCH_STATUS.NONE) {
+		var diffX = event.changedTouches[(0)].clientX - state.touchStartX;
+		var diffY = event.changedTouches[(0)].clientY - state.touchStartY;
+		var touchable = state.containerIns.getDataset().touchable;
+		if (Math.abs(diffX) > Math.abs(diffY)) {
+			state.touchStatus = TOUCH_STATUS.MOVE_X
+		} else {
+			state.touchStatus = TOUCH_STATUS.OTHERS
+		}
+	};
+	if (state.touchStatus === TOUCH_STATUS.MOVE_X && state.touchStartX >= 40) {
+		var touches = event.changedTouches.filter((function(touch) {
+			return (touch.identifier === state.touchIdentifier)
+		}));
+		if (!touches[(0)]) return (true);;
+		var diffX = touches[(0)].clientX - state.touchStartX;
+		if (Math.abs(diffX) < state.threshold) return (propagateMoveXEvent(diffX, state));;
+		if (state.emitMoveXFlag) return (propagateMoveXEvent(diffX, state));;
+		instance.callMethod('emitMoveXEvent', ({
+			status: diffX > 0 ? 1 : -1,
+		}));
+		state.emitMoveXFlag = true;
+		return (propagateMoveXEvent(diffX, state))
+	};
+	return (true)
+};
+
+function touchend(event, instance) {
+	var state = instance.getState();
+	var isIdenticalTouch = event.changedTouches.some((function(touch) {
+		return (touch.identifier === state.touchIdentifier)
+	}));
+	if (!isIdenticalTouch) {
+		if (!event.touches || event.touches.length === 0) {
+			resetStatus(state)
+		};
+		return (true)
+	};
+	resetStatus(state);
+	return (true)
+};
+
+function resetStatus(state) {
+	state.touchIdentifier = undefined;
+	state.touchStatus = TOUCH_STATUS.NONE;
+	state.emitMoveXFlag = false
+};
+
+function propagateMoveXEvent(diffX, state) {
+	var dataset = state.containerIns.getDataset();
+	if (dataset.stopMoveLeft && dataset.stopMoveRight) return (false);;
+	if (dataset.stopMoveLeft && diffX < 0) return (false);;
+	if (dataset.stopMoveRight && diffX > 0) return (false);;
+	return (true)
+};
+module.exports = ({
+	touchstart: touchstart,
+	touchmove: touchmove,
+	touchend: touchend,
+});
